@@ -1,3 +1,4 @@
+#!/bin/sh
 tmux kill-window -t flask-run
 cd mlh-portfolio
 git fetch && git reset origin/main --hard
