@@ -1,0 +1,56 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:title" content="Personal Portfolio">
+    <meta property="og:description" content="My Personal Portfolio">
+    <meta property="og:url" content="{{ url }}">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon" />
+    <title>{% block title %}{% endblock %}{{ title }}</title>
+</head>
+
+<body>
+    {% block nav %}
+    <header class="nav-bar">
+        <div class="nav-content">
+            <button class="nav-toggle hidden">
+                <span class="top-bar"></span>
+                <span class="mid-bar"></span>
+                <span class="bottom-bar"></span>
+            </button>
+            <a href="/">
+                <div class="nav-logo">
+                    <img src="{{ url_for('static', filename='img/logo.svg') }}" />
+                </div>
+            </a>
+            <nav class="menu-bar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="/#about-me">About</a></li>
+                    <li class="nav-item"><a href="/#work-experience">Work Experience</a></li>
+                    <li class="nav-item"><a href="/hobbies">Hobbies</a></li>
+                    <li class="nav-item"><a href="/#travel-map">Travel Map</a></li>
+                    <li class="nav-item"><a href="/#education">Education</a></li>
+                    <li class="nav-item"><a href="/timeline">Timeline</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    {% endblock %}
+
+    {% block content %}{% endblock %}
+
+    <!-- Script tag to include main.js -->
+    <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
+</body>
+</html>

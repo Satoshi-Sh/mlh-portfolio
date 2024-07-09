@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from peewee import *
 import datetime
 from playhouse.shortcuts import model_to_dict
+from app.utils.gravatar import get_gravatar_url
+
 
 load_dotenv()
 app = Flask(__name__)
@@ -70,7 +72,7 @@ hobbies = [
         "img_alt_text": "Playing the public piano",
     },
     {
-        "description": "Soccer is the greatest sport in the world!",
+        "description": "Soccer is the greatest!",
         "img_path": "./static/img/greatest-sport.jpg",
         "img_alt_text": "Soccer ball on field",
     },
@@ -99,6 +101,8 @@ education = [
     },
 ]
 
+# Views
+
 
 @app.route("/")
 def index():
@@ -117,6 +121,21 @@ def hobby_page():
     return render_template(
         "hobbies.html", title="My Hobbies", hobbies=hobbies, url=os.getenv("URL")
     )
+
+
+@app.route("/timeline")
+def timeline():
+    all_posts = []
+    for p in TimelinePost.select().order_by(TimelinePost.created_at.desc()):
+        p = model_to_dict(p)
+        p["gravatar_url"] = get_gravatar_url(p["email"])
+        all_posts.append(p)
+    return render_template(
+        "timeline.html", title="Timeline", url=os.getenv("URL"), all_posts=all_posts
+    )
+
+
+# API
 
 
 @app.route("/api/timeline_post", methods=["POST"])

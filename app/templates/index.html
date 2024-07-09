@@ -1,61 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta property="og:title" content="Personal Portfolio">
-    <meta property="og:description" content="My Personal Portfolio">
-    <meta property="og:url" content="{{ url }}">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-        rel="stylesheet">
-
-    <link lang='sass' rel="stylesheet" href="./static/styles/main.css">
-    <link rel='icon' href='./static/img/favicon.ico' type='image/x-icon' />
-    <title>{% block title %}{% endblock %}{{ title }}</title>
-</head>
-
-<body>
-    {% block nav %}
-    <header class="nav-bar">
-        <div class="nav-content">
-            <button class="nav-toggle hidden">
-                <span class="top-bar"></span>
-                <span class="mid-bar"></span>
-                <span class="bottom-bar"></span>
-            </button>
-            <a href="/">
-                <div class="nav-logo">
-                    <img src="./static/img/logo.svg" />
-                </div>
-            </a>
-            <nav class="menu-bar">
-                <ul class="nav-list">
-                    <li class="nav-item"><a href="/#about-me">About</a></li>
-                    <li class="nav-item"><a href="/#work-experience">Work Experience</a></li>
-                    <li class="nav-item"><a href="/hobbies">Hobbies</a></li>
-                    <li class="nav-item"><a href="/#travel-map">Travel Map</a></li>
-                    <li class="nav-item"><a href="/#education">Education</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    {% endblock %}
-
-    {% block proile %}
+{% block content %}
     <div class="profile">
         <div id="profile-picture" class="profile-picture">
             <img src="./static/img/satoshi.webp" alt="Satoshi's profile">
         </div>
         <h1>{{ title }} <br> Satoshi S.</h1>
     </div>
-    {% endblock %}
 
-    {% block content %}
     <div id="about-me" class="about container">
         <h2>About Myself</h2>
         <p><span class="accent">S</span>atoshi is a full-stack developer, who is looking for opportunities to learn something new. He enjoys collaborating with other developers in open source ecosystems.</p>
@@ -82,14 +34,16 @@
     
     <div id="hobbies" class="hobby container">
         <h2>My Hobbies</h2>
-        <ul>
+        <div class="flex-container">
             {% for hobby in hobbies %}
-                <li class="card">
+                <div class="hobby-card">
                     <img src="{{ hobby['img_path'] }}" alt="{{ hobby['img_alt_text'] }}"/>
-                    <span class="description">{{ hobby["description"] }}</span>
-                </li>
+                    <div class="description-container">
+                        <p class="description">{{ hobby["description"] }}</p>
+                    </div>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
     </div>
     
 
@@ -112,10 +66,5 @@
             {% endfor %}
         </ul>
     </div>
+{% endblock %}
 
-    {% endblock %}
-
-    <!-- Script tag to include main.js -->
-    <script src="../static/scritps/main.js"></script>
-</body>
-</html>

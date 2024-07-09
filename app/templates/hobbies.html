@@ -1,22 +1,15 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
 {% block title %}{{ title }}{% endblock %}
-{% block proile %}
-    <div class="profile">
-        <div id="profile-picture" class="profile-picture">
-            <img src="./static/img/satoshi.webp" alt="Satoshi's profile">
-        </div>
-        <h1>{{ title }}</h1>
-    </div>
-{% endblock %}
 {% block content %}
-    <div class="hobby container">
-        <ul>
+<h2 class="subtitle">My Hobbies</h2>
+    <div class="flex-container">
             {% for hobby in hobbies %}
-                <li class="card">
+                <div class="hobby-card">
                     <img src="{{ hobby['img_path'] }}" alt="{{ hobby['img_alt_text'] }}"/>
-                    <span class="description">{{ hobby["description"] }}</span>
-                </li>
+                    <div class="description-container">
+                        <p class="description">{{ hobby["description"] }}</p>
+                    </div>
+                </div>
             {% endfor %}
-        </ul>
     </div>
 {% endblock%}
