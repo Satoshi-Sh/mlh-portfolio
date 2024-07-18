@@ -1,22 +1,27 @@
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, render_template_string, request, abort
 from dotenv import load_dotenv
 from peewee import *
 import datetime
 from playhouse.shortcuts import model_to_dict
 from app.utils.gravatar import get_gravatar_url
+import re
 
 
 load_dotenv()
 app = Flask(__name__)
 
-mydb = MySQLDatabase(
-    os.getenv("MYSQL_DATABASE"),
-    user=os.getenv("MYSQL_USER"),
-    password=os.getenv("MYSQL_PASSWORD"),
-    host=os.getenv("MYSQL_HOST"),
-    port=3306,
-)
+if os.getenv("TESTING") == "true":
+    print("Running in test mode")
+    mydb = SqliteDatabase("file:memory?mode=memory&cache=shared", uri=True)
+else:
+    mydb = MySQLDatabase(
+        os.getenv("MYSQL_DATABASE"),
+        user=os.getenv("MYSQL_USER"),
+        password=os.getenv("MYSQL_PASSWORD"),
+        host=os.getenv("MYSQL_HOST"),
+        port=3306,
+    )
 
 print(mydb)
 
@@ -140,9 +145,23 @@ def timeline():
 
 @app.route("/api/timeline_post", methods=["POST"])
 def post_time_line_post():
-    name = request.form["name"]
-    email = request.form["email"]
-    content = request.form["content"]
+    messages = []
+    code = None
+    name = request.form.get("name", "")
+    if len(name) == 0:
+        messages.append("Invalid name")
+        code = 400
+    email = request.form.get("email", "")
+    regex = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b"
+    if not re.fullmatch(regex, email):
+        messages.append("Invalid email")
+        code = 400
+    content = request.form.get("content", "")
+    if len(content) == 0:
+        messages.append("Invalid content")
+        code = 400
+    if len(messages) > 0:
+        abort(code, description=", ".join(messages))
     timeline_post = TimelinePost.create(name=name, email=email, content=content)
 
     return model_to_dict(timeline_post)
@@ -164,3 +183,20 @@ def delete_time_line_post(id):
     if deleted_post:
         return {"message": f"Post {id} was deleted."}
     return {"message": f"Post {id} doesn't exist"}
+
+
+# errorr Handlers
+@app.errorhandler(400)
+def handle_400_error(e):
+    custom_message = (
+        e.description
+        if e.description
+        else "The browser (or proxy) sent a request that this server could not understand"
+    )
+    error_html = f"""
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+    <title>400 Bad Request</title>
+    <h1>Bad Request</h1>
+    <p>{custom_message}</p>
+    """
+    return render_template_string(error_html), 400
