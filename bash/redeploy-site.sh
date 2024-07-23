@@ -1,5 +1,5 @@
 #!/bin/sh
-cd ./mlh-portfolio
+cd ~/mlh-portfolio
 git fetch && git reset origin/main --hard
 docker compose -f docker-compose.prod.yml down # avoid memory issues on vps 
 docker compose -f docker-compose.prod.yml up -d --build
