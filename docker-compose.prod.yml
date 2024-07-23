@@ -6,8 +6,8 @@ services:
     restart: always
     env_file:
       - .env
-    ports:
-      - "5000:5000"
+    # ports:
+    #   - "5000:5000" nginx relay traffic to the myportfolio container
     depends_on:
       - mysql
   mysql: 
@@ -18,6 +18,23 @@ services:
      - .env
     volumes:
      - mydatabase:/var/lib/mysql
+  
+  nginx:
+    container_name: nginx
+    image: jonasal/nginx-certbot
+    restart: always
+    environment:
+      - CERTBOT_EMAIL=satoss1108@gmail.com
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - nginx_secrets:/etc/letsencrypt
+      - ./user_conf.d:/etc/nginx/user_conf.d
+    depends_on:
+      - myportfolio
+      
 volumes:
   mydatabase:
+  nginx_secrets:
   
