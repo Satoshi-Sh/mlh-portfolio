@@ -21,18 +21,17 @@ form.addEventListener('submit',function(e){
         method: 'POST',
         body: payload,
         })
-        .then(res => res.json())
+        .then(res => {
+            if (res.status==503){
+                throw new Error("Rate limit exceeded. Please submit 1 minute after.")
+            }
+            res.json()})
         .then(data => {console.log(data)
             location.reload()
         }
     )
     .catch (error =>{
         const errorElement  = document.querySelector('.error-message')
-        console.log(error)
-        if (error.status === 503) {
-            errorElement.textContent = "Rate limit exceeded. Please submit 1 minute after.";
-        } else {
-            errorElement.textContent = `Error ${error.status}: ${error.message}`;
-        }
+            errorElement.textContent = `Error: ${error.message}`;
     });
 })
