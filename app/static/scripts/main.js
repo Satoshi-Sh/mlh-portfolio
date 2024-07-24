@@ -28,6 +28,10 @@ form.addEventListener('submit',function(e){
     )
     .catch (error =>{
         const errorElement  = document.querySelector('.error-message')
-        errorElement.textContent="Rate limit exceeded. Please Submit 1 minute after.." 
+        if (error.status === 429) {
+            errorElement.textContent = "Rate limit exceeded. Please submit 1 minute after.";
+        } else {
+            errorElement.textContent = `Error ${error.status}: ${error.message}`;
+        }
     });
 })
