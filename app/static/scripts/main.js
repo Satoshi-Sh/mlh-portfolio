@@ -10,7 +10,7 @@ document.querySelector('.nav-toggle').addEventListener('click', ()=>{
     midBar.classList.toggle('hidden')
     nav.classList.toggle('visible')
 })
-
+if (window.location.pathname === '/timeline'){
 // Post request
 const form = document.getElementById("timeline-form")
 
@@ -35,3 +35,4 @@ form.addEventListener('submit',function(e){
             errorElement.textContent = `Error: ${error.message}`;
     });
 })
+}
