@@ -32,6 +32,7 @@ form.addEventListener('submit',function(e){
             errorElement.textContent = "Rate limit exceeded. Please submit 1 minute after.";
         } else {
             errorElement.textContent = `Error ${error.status}: ${error.message}`;
+            console.log(error.message)
         }
     });
 })
