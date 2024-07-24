@@ -25,7 +25,7 @@ form.addEventListener('submit',function(e){
             if (res.status==503){
                 throw new Error("Rate limit exceeded. Please submit 1 minute after.")
             }
-            res.json()})
+            return res.json()})
         .then(data => {console.log(data)
             location.reload()
         }
