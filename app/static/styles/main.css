@@ -349,6 +349,11 @@ form button {
     font-size: 1.2rem;
 }
 
+.error-message{
+    text-align: center;
+    color: red;
+}
+
 .posts{
     margin-top: 80px;
     width:80%;
