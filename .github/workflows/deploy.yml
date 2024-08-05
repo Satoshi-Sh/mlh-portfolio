@@ -28,4 +28,6 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_IP: ${{ secrets.SSH_IP }}
       - name: Deploy site
-        run: ssh my-vm "${{ secrets.PROJECT_ROOT }}/redeploy-site.sh"
+        run: ssh my-vps "chmod 600 ${PROJECT_ROOT}/redeploy-site.sh && ${PROJECT_ROOT}/redeploy-site.sh"
+        env:
+          PROJECT_ROOT: ${{ secrets.PROJECT_ROOT }}
