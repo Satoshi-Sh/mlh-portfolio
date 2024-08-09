@@ -30,4 +30,4 @@ jobs:
       - name: Deploy site
         run: ssh my-vps "~/redeploy-site.sh"
       - name: Docker status
-        run: ssh my-vps "docker-compose ps"
+        run: ssh my-vps "docker ps"
