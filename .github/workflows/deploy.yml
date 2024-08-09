@@ -34,4 +34,5 @@ jobs:
       - name: Discord Notification
         run: |
           curl -s -X POST "$DISCORD_WEBHOOK" -d "content=🚀 Deployment Successful"
-        env: DISCORD_WEBHOOK:${{ secrets.DISCORD_WEBHOOK }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
