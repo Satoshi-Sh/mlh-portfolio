@@ -31,11 +31,18 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_IP: ${{ secrets.SSH_IP }}
       - name: Deploy site
+        id: deploySite
         run: ssh my-vps "~/redeploy-site.sh"
       - name: Docker status
         run: ssh my-vps "docker ps"
       - name: Discord Notification
         run: |
           curl -s -X POST "$DISCORD_WEBHOOK" -d "content=🚀 Deployment Successful"
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Debug Job Failure
+        run: |
+          curl -s -X POST "$DISCORD_WEBHOOK" -d "content=🚩 Deployment Failed"
+        if: always() && (steps.deploySite.outcome == 'failure' || steps.allJobs.outcome == 'failure')
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
