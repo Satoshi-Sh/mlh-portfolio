@@ -31,3 +31,7 @@ jobs:
         run: ssh my-vps "~/redeploy-site.sh"
       - name: Docker status
         run: ssh my-vps "docker ps"
+      - name: Discord Notification
+        run: |
+          curl -s -X POST "$DISCORD_WEBHOOK" -d "content=🚀 Deployment Successful"
+        env: DISCORD_WEBHOOK:${{ secrets.DISCORD_WEBHOOK }}
