@@ -32,7 +32,7 @@ jobs:
           SSH_IP: ${{ secrets.SSH_IP }}
       - name: Deploy site
         id: deploySite
-        run: ssh my-vps "~/redeploy-site.sh"
+        run: sshm my-vps "~/redeploy-site.sh"
       - name: Docker status
         run: ssh my-vps "docker ps"
       - name: Discord Notification
