@@ -127,9 +127,10 @@ def hobby_page():
         "hobbies.html", title="My Hobbies", hobbies=hobbies, url=os.getenv("URL")
     )
 
+
 @app.route("/health")
 def headl_check():
-    TimelinePost.select().order_by(TimelinePost.created_at.desc()
+    TimelinePost.select().order_by(TimelinePost.created_at.desc())
     return render_template(
         "index.html",
         title="MLH Fellow",
